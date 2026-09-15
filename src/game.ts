@@ -40,6 +40,28 @@ function placeFlag(board: Types.Board, cell: Types.Cell): void
     cell.state = 'flagged'
 }
 
+//handles functionality for clicking a cell
+function clickCell(board: Types.Board, row: number, col: number): void
+{
+    //TODO: finish
+    if (board.cells[row][col].state == 'flagged'){
+        board.cells[row][col].state = 'covered'
+    }
+    else if (board.cells[row][col].state == 'covered')
+    {
+        if (board.cells[row][col].isMine)
+        {
+            board.gameStatus = 'lost'
+            return;
+        }
+        else 
+        {
+            board.cells[row][col].state = 'revealed'
+            // now do recursion for revealing other open spaces next to it
+        }
+    }
+}
+
 function renderBoard(){
     const board = Types.createEmptyBoard(Types.BOARD_SIZE, Types.BOARD_SIZE, mineCount());
     mineGenerater(board);
