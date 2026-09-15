@@ -13,12 +13,6 @@ const tempBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
-/*
-Places a flag at cell [row, col] in board.
-Args:
-    minesweeper: a minesweeper object that consists of a board, state,
-    and flagCount
-*/
 //randomly generated a mine count between 10-20 
 function mineCount(){
     return Math.floor(Math.random() * (Types.MAX_MINES - Types.MIN_MINES + 1)) + Types.MIN_MINES;
@@ -40,16 +34,10 @@ function mineGenerater(board: Types.Board): void {
     }
 }
 
-function placeFlag(minesweeper: {board: number[][], state: number, flagCount: number}, cell: number[]): void 
+//places a flag
+function placeFlag(board: Types.Board, cell: Types.Cell): void 
 {
-    minesweeper.board[cell[0]][cell[1]] = 1
-    minesweeper.flagCount -= 1
-}
-
-const minesweeper: {board: number[][], state: number, flagCount: number} = {
-    board: tempBoard,
-    state: 2,
-    flagCount: 10
+    cell.state = 'flagged'
 }
 
 function renderBoard(){
@@ -66,7 +54,11 @@ function printBoard(board: Types.Board){
     for (let col = 0; col < Types.BOARD_SIZE; col++) {
         if (board.cells[row][col].isMine) {
             line += "3 "; //3 = mine 
-        } else {
+        }
+        else if (board.cells[row][col].state == 'flagged'){
+            line += "1 ";
+        } 
+        else {
             line += "0 ";
         }
     }
@@ -75,12 +67,9 @@ function printBoard(board: Types.Board){
     }
 }
 
-
-placeFlag(minesweeper, [0,0])
-console.log(minesweeper.board)
-
-
+// temporary testing 
 const board = renderBoard();
+placeFlag(board, board.cells[0][1])
 printBoard(board);
 
 
