@@ -55,6 +55,7 @@ export type Board = {
   rows: number;
   cols: number;
   mineCount: number;
+  gameStatus: GameStatus;
 };
 
 // "ready" means mines have not been placed yet so the first click can be safe.
