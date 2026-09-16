@@ -68,9 +68,12 @@ function mineGenerater(board: Types.Board, cell_row: number, cell_col: number): 
 }
 
 //places a flag
-function placeFlag(board: Types.Board, cell: Types.Cell): void 
+function placeFlag(board: Types.Board, row: number, col: number): void 
 {
-    cell.state = 'flagged';
+    if (row >= 0 && row < board.rows && col >= 0 && col < board.cols)
+    {
+       board.cells[row][col].state = 'flagged';
+    }
 }
 function removeFlag(board: Types.Board, cell: Types.Cell): void 
 {
@@ -228,7 +231,7 @@ async function testGame() {
             clickCell(board, row, col);
         }
         else if (action === 'f') {
-            placeFlag(board, board.cells[row][col]);
+            placeFlag(board, row, col);
         }
 
         printBoard(board);
