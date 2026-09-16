@@ -1,12 +1,100 @@
-#board {
-    display: grid;
-    grid-template-columns: repeat(10, 70px);
-    grid-template-rows: repeat(10, 70px);
+:root {
+    color-scheme: dark;
+    --ink: #f2eaff;
+    --muted: #c1b4df;
+    --deep: #100b2b;
+    --screen: #21134f;
+    --panel: #43207a;
+    --panel-light: #6631a0;
+    --neon: #d8a7ff;
+    --pink: #ff8ad8;
+    --line: #9a62d3;
 }
 
-.cell {
-    width: 70px;
-    height: 70px;
-    border: 1px solid black;
-    box-sizing: border-box;
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-width: 320px;
+    color: var(--ink);
+    background: var(--deep);
+    font-family: Georgia, 'Times New Roman', serif;
+}
+
+button { font: inherit; }
+
+.start-shell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    max-width: 760px;
+    margin: auto;
+    padding: clamp(30px, 6vw, 65px) 22px;
+    background: repeating-linear-gradient(0deg, #28145d 0, #28145d 3px, #231252 3px, #231252 6px);
+    border: 12px solid #08051a;
+    box-shadow: inset 0 0 0 3px #6f48a8, 0 18px 0 #08051a;
+}
+
+.brand-title {
+    margin: 0;
+    color: var(--neon);
+    font-family: 'Courier New', monospace;
+    font-size: clamp(39px, 7vw, 66px);
+    line-height: 1;
+    letter-spacing: 2px;
+    text-align: center;
+    text-shadow: 3px 3px 0 #6c277f, 0 0 18px #bc78ff88;
+}
+
+.setup-panel {
+    width: min(100%, 520px);
+    margin-top: 48px;
+    padding: clamp(28px, 5vw, 44px);
+    background: repeating-linear-gradient(0deg, #4b2184 0, #4b2184 3px, #45207b 3px, #45207b 6px);
+    border: 3px solid var(--line);
+    border-radius: 2px;
+    box-shadow: 0 10px 0 #08051a, inset 0 0 26px #241044;
+}
+
+.panel-title { margin: 0; color: var(--ink); font-size: 34px; text-align: center; }
+.panel-copy { margin: 10px 0 25px; color: var(--muted); font-family: 'Trebuchet MS', sans-serif; font-size: 14px; text-align: center; }
+.mine-picker { display: grid; gap: 12px; color: var(--neon); font: 700 11px 'Trebuchet MS', sans-serif; letter-spacing: 1px; }
+.mine-picker input[type='number'] { width: 100%; padding: 10px; color: var(--ink); background: var(--deep); border: 2px solid var(--neon); border-radius: 2px; font: 700 36px 'Trebuchet MS', sans-serif; text-align: center; box-shadow: inset 0 0 12px #0008; }
+.mine-picker input[type='range'] { width: 100%; accent-color: var(--pink); cursor: pointer; }
+.start-button, .new-game-button { font-family: 'Trebuchet MS', sans-serif; }
+.start-button { width: 100%; margin-top: 24px; padding: 16px; color: #210d3d; background: var(--pink); border: 0; border-radius: 2px; font-size: 14px; font-weight: 700; cursor: pointer; box-shadow: 0 7px 0 #912d7c, 0 0 16px #ff8ad855; transition: transform .15s, box-shadow .15s; }
+.start-button:hover { transform: translateY(2px); box-shadow: 0 5px 0 #912d7c, 0 0 20px #ff8ad877; }
+.instructions { display: flex; gap: 12px; margin-top: 30px; padding-top: 22px; color: var(--ink); border-top: 1px solid var(--line); font-family: 'Trebuchet MS', sans-serif; }
+.instruction-icon { display: grid; flex: 0 0 26px; place-items: center; height: 26px; color: var(--deep); background: var(--neon); border-radius: 2px; font-weight: 700; }
+.instructions strong { font-size: 13px; }
+.instructions ul { margin: 7px 0 0; padding-left: 17px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.instructions li::marker { color: var(--pink); }
+
+.game-shell { max-width: 980px; margin: auto; padding: 30px clamp(18px, 5vw, 60px) 70px; }
+.game-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 70px; }
+.mini-logo { color: var(--neon); font-size: 22px; font-weight: 700; text-shadow: 0 0 10px #bc78ff88; }
+.new-game-button { padding: 10px 15px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 2px; font-size: 12px; cursor: pointer; }
+.game-heading { text-align: center; }
+.game-heading h1 { margin: 0; color: var(--neon); font-size: clamp(35px, 5vw, 58px); text-shadow: 0 0 14px #bc78ff66; }
+.game-heading > p:last-child { margin: 14px 0 34px; color: var(--muted); font-family: 'Trebuchet MS', sans-serif; font-size: 14px; }
+.board-frame { max-width: 680px; margin: auto; padding: 18px; background: var(--panel); border: 1px solid var(--line); box-shadow: 0 12px 0 #08051a, inset 0 0 22px #241044; }
+.game-stats { display: flex; justify-content: space-between; padding: 5px 2px 18px; font-family: 'Trebuchet MS', sans-serif; }
+.game-stats div { display: grid; gap: 3px; }
+.game-stats span { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+.game-stats strong { color: var(--neon); font-size: 15px; }
+.status-ready { color: var(--pink) !important; }
+
+#board { display: grid; grid-template-columns: repeat(10, 1fr); aspect-ratio: 1; gap: 3px; }
+.cell { display: grid; place-items: center; min-width: 0; aspect-ratio: 1; color: var(--ink); background: #6631a0; border-radius: 2px; font: 700 clamp(13px, 2.5vw, 20px) 'Trebuchet MS', sans-serif; box-shadow: inset 0 0 8px #24104466; }
+.cell:nth-child(3n) { background: #7438a9; }
+.cell:nth-child(4n) { background: #542b91; }
+.cell.number-1 { color: #a9e5ff; }
+.cell.number-2 { color: #ff9cda; }
+.cell.number-3 { color: #d8b4ff; }
+
+@media (max-width: 700px) {
+    .start-shell { padding: 42px 22px; }
+    .setup-panel { padding: 27px 22px; }
+    .game-topbar { margin-bottom: 50px; }
 }
