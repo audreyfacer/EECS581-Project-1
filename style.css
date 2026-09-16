@@ -9,4 +9,38 @@
     height: 70px;
     border: 1px solid black;
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: bold 28px/1 sans-serif;
+    cursor: pointer;
+    user-select: none;
+}
+
+.cell-covered,
+.cell-flagged {
+    background: #d7dce2;
+}
+
+.cell-covered:hover,
+.cell-flagged:hover {
+    background: #c4cbd3;
+}
+
+.cell-revealed {
+    background: #f5f6f7;
+    cursor: default;
+}
+
+.cell-flagged {
+    color: #c62828;
+}
+
+.cell-mine {
+    color: #202124;
+}
+
+.cell-exploded {
+    background: #ef9a9a;
+    color: #8e0000;
 }
