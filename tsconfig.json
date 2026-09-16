@@ -9,10 +9,10 @@
     // See also https://aka.ms/tsconfig/module
     "module": "es2020",
     "moduleResolution": "bundler",
-    "target": "esnext",
+
     "target": "es2020",
-    "types": [],
-    // Browser APIs (document, HTMLElement) needed by ui.ts and main.ts
+    "types": ["node"],
+    // Browser APIs (doctument, HTMLElement) needed by ui.ts and main.ts
     "lib": ["esnext", "dom"],
 
     // Other Outputs
