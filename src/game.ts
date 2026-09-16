@@ -37,33 +37,53 @@ function mineGenerater(board: Types.Board): void {
 //places a flag
 function placeFlag(board: Types.Board, cell: Types.Cell): void 
 {
-    cell.state = 'flagged'
+    cell.state = 'flagged';
 }
 
 //handles functionality for clicking a cell
 function clickCell(board: Types.Board, row: number, col: number): void
 {
-    //TODO: finish
     if (board.cells[row][col].state == 'flagged'){
-        board.cells[row][col].state = 'covered'
+        board.cells[row][col].state = 'covered';
     }
     else if (board.cells[row][col].state == 'covered')
     {
         if (board.cells[row][col].isMine)
         {
-            board.gameStatus = 'lost'
+            board.gameStatus = 'lost';
             return;
         }
         else 
         {
             board.cells[row][col].state = 'revealed'
-            // now do recursion for revealing other open spaces next to it
+            if (board.cells[row][col].adjacentMines == 0)
+            {
+                uncoverNeighbors(board, row, col); //TODO: isn't working yet
+            }
         }
     }
 }
 
+// uncovers neighbor cells that have zero adjacent mines
+function uncoverNeighbors(board: Types.Board, row: number, col: number): void {
+    for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
+      for (let colOffset = -1; colOffset <= 1; colOffset++) {
+        // skip the center cell itself
+        if (rowOffset === 0 && colOffset === 0) continue;
+        
+        const r = row + rowOffset;
+        const c = col + colOffset;
+  
+        // ensures neighboring cell is within the board's range
+        if (r >= 0 && r < board.rows && c >= 0 && c < board.cols && board.cells[row][col].adjacentMines == 0) {
+          clickCell(board, r, c);
+        }
+      }
+    }
+  }
+
 function renderBoard(){
-    const board = Types.createEmptyBoard(Types.BOARD_SIZE, Types.BOARD_SIZE, mineCount());
+    const board = Types.createEmptyBoard(Types.BOARD_SIZE, Types.BOARD_SIZE, mineCount(), 'ready');
     mineGenerater(board);
     return board;
 }
@@ -80,6 +100,9 @@ function printBoard(board: Types.Board){
         else if (board.cells[row][col].state == 'flagged'){
             line += "1 ";
         } 
+        else if (board.cells[row][col].state == 'revealed'){
+            line += "2 ";
+        }
         else {
             line += "0 ";
         }
@@ -91,8 +114,8 @@ function printBoard(board: Types.Board){
 
 // temporary testing 
 const board = renderBoard();
-placeFlag(board, board.cells[0][1])
+placeFlag(board, board.cells[0][1]);
 printBoard(board);
-
-
-
+clickCell(board, 4, 1); //TODO: doesn't work right (believe it's because none of the cells display whether or not they have adjacent mines yet)
+console.log('\n');
+printBoard(board);
