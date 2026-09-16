@@ -19,10 +19,7 @@ function mineCount(){
     return Math.floor(Math.random() * (Types.MAX_MINES - Types.MIN_MINES + 1)) + Types.MIN_MINES;
 }
 
-//generated the mine in the 
-function mineGenerater(board: Types.Board): void {
-    const mineAmt = mineCount();
-    let minesPlaced = 0;
+function updateAdjacentMines(board: Types.Board, row: number, col: number): void {
 
     const offsets = [
         [-1, -1], [-1, 0], [-1, 1],
@@ -30,26 +27,42 @@ function mineGenerater(board: Types.Board): void {
         [ 1, -1], [ 1, 0], [ 1, 1]
     ];
 
+    for (const [rowOffset, colOffset] of offsets) {
+
+        const neighborRow = row + rowOffset;
+        const neighborCol = col + colOffset;
+
+        if (neighborRow >= 0 &&
+            neighborRow < Types.BOARD_SIZE &&
+            neighborCol >= 0 &&
+            neighborCol < Types.BOARD_SIZE) {
+
+            board.cells[neighborRow][neighborCol].adjacentMines += 1;
+        }
+    }
+}
+function isSafeCell(row: number, col: number, row_cell: number, col_cell: number): boolean {
+
+    return Math.abs(row - row_cell) <= 1 &&
+           Math.abs(col - col_cell) <= 1;
+}
+//generated the mine in the 
+function mineGenerater(board: Types.Board, cell_row: number, cell_col: number): void {
+
+    const mineAmt = mineCount();
+    let minesPlaced = 0;
+
     while (minesPlaced < mineAmt) {
+
         const row = Math.floor(Math.random() * Types.BOARD_SIZE);
         const col = Math.floor(Math.random() * Types.BOARD_SIZE);
 
-        if (!board.cells[row][col].isMine) {
-            board.cells[row][col].isMine = true; //declared that its a mine 
+        if (!board.cells[row][col].isMine && !isSafeCell(row, col, cell_row, cell_col)) {
+
+            board.cells[row][col].isMine = true;
             minesPlaced++;
 
-            // increment adjacentMines count for all valid neighbors
-            for (const [rowOffset, colOFfset] of offsets)
-            {
-                const neighborRow = row + rowOffset;
-                const neighborCol = col + colOFfset;
-
-                if (neighborRow >= 0 && neighborRow < Types.BOARD_SIZE &&
-                    neighborCol >= 0 && neighborCol < Types.BOARD_SIZE
-                ) {
-                    board.cells[neighborRow][neighborCol].adjacentMines += 1;
-                }
-            }
+            updateAdjacentMines(board, row, col);
         }
     }
 }
@@ -58,6 +71,10 @@ function mineGenerater(board: Types.Board): void {
 function placeFlag(board: Types.Board, cell: Types.Cell): void 
 {
     cell.state = 'flagged';
+}
+function removeFlag(board: Types.Board, cell: Types.Cell): void 
+{
+    cell.state = 'covered';
 }
 
 //handles functionality for clicking a cell
@@ -78,6 +95,9 @@ function clickCell(board: Types.Board, row: number, col: number): void
                 uncoverNeighbors(board, row, col);
             }
         }
+    }
+    else if(board.cells[row][col].state == 'revealed'){
+        return;
     }
 }
 
@@ -113,7 +133,7 @@ function uncoverNeighbors(board: Types.Board, row: number, col: number): void {
 }
 
 
-function renderBoard() {
+function renderBoard(row: number, col: number) {
     const board = Types.createEmptyBoard(
         Types.BOARD_SIZE,
         Types.BOARD_SIZE,
@@ -121,10 +141,26 @@ function renderBoard() {
         'ready'
     );
 
-    mineGenerater(board);
+    mineGenerater(board, row, col);
 
     return board;
 }
+
+function win(board: Types.Board): void {
+    for (let row = 0; row < Types.BOARD_SIZE; row++) {
+        for (let col = 0; col < Types.BOARD_SIZE; col++) {
+            const cell = board.cells[row][col];
+
+            // If this is not a mine and is still hidden
+            if((cell.state == 'covered') || (cell.isMine && cell.state != 'flagged') ){
+                return;
+            }
+            
+        }
+    }
+    board.gameStatus = 'won';
+}
+    
 
 
 //print the board 
@@ -152,9 +188,8 @@ function printBoard(board: Types.Board){
     }
 }
 
-// temporary testing 
-const board = renderBoard();
 
+//temp testing 
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -165,8 +200,15 @@ function ask(question: string): Promise<string> {
 }
 
 async function testGame() {
+    const input = await ask("\nEnter row col (q to quit): ");
 
-    const board = renderBoard();
+        if (input === 'q') {
+            return;
+        }
+    const [row, col] = input.split(' ').map(Number);
+
+    const board = renderBoard(row, col);
+    clickCell(board, row, col);
 
     printBoard(board);
 
@@ -175,7 +217,7 @@ async function testGame() {
         const input = await ask("\nEnter row col (q to quit): ");
 
         if (input === 'q') {
-            break;
+            return;
         }
 
         const [row, col] = input.split(' ').map(Number);
