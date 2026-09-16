@@ -77,7 +77,8 @@ export type GameState = {
 export function createEmptyBoard(
   rows: number,
   cols: number,
-  mineCount: number
+  mineCount: number,
+  gameStatus: GameStatus
 ): Board {
   const cells: Cell[][] = Array.from({ length: rows }, () =>
     Array.from({ length: cols }, (): Cell => ({
@@ -92,6 +93,7 @@ export function createEmptyBoard(
     rows,
     cols,
     mineCount,
+    gameStatus
   };
 }
 
