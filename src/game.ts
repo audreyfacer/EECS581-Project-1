@@ -23,6 +23,12 @@ function mineGenerater(board: Types.Board): void {
     const mineAmt = mineCount();
     let minesPlaced = 0;
 
+    const offsets = [
+        [-1, -1], [-1, 0], [-1, 1],
+        [ 0, -1],          [ 0, 1],
+        [ 1, -1], [ 1, 0], [ 1, 1]
+    ];
+
     while (minesPlaced < mineAmt) {
         const row = Math.floor(Math.random() * Types.BOARD_SIZE);
         const col = Math.floor(Math.random() * Types.BOARD_SIZE);
@@ -30,6 +36,19 @@ function mineGenerater(board: Types.Board): void {
         if (!board.cells[row][col].isMine) {
             board.cells[row][col].isMine = true; //declared that its a mine 
             minesPlaced++;
+
+            // increment adjacentMines count for all valid neighbors
+            for (const [rowOffset, colOFfset] of offsets)
+            {
+                const neighborRow = row + rowOffset;
+                const neighborCol = col + colOFfset;
+
+                if (neighborRow >= 0 && neighborRow < Types.BOARD_SIZE &&
+                    neighborCol >= 0 && neighborCol < Types.BOARD_SIZE
+                ) {
+                    board.cells[neighborRow][neighborCol].adjacentMines += 1;
+                }
+            }
         }
     }
 }
@@ -116,6 +135,6 @@ function printBoard(board: Types.Board){
 const board = renderBoard();
 placeFlag(board, board.cells[0][1]);
 printBoard(board);
-clickCell(board, 4, 1); //TODO: doesn't work right (believe it's because none of the cells display whether or not they have adjacent mines yet)
+clickCell(board, 4, 1); 
 console.log('\n');
 printBoard(board);
