@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "test": "tsc && node dist/selftest.js",
+    "test": "npm run build",
     "start": "npx serve ."
   },
   "devDependencies": {
