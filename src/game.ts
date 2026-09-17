@@ -48,7 +48,6 @@ function isSafeCell(row: number, col: number, row_cell: number, col_cell: number
 }
 //generated the mine in the 
 function mineGenerater(board: Types.Board, cell_row: number, cell_col: number): void {
-
     const mineAmt = mineCount();
     let minesPlaced = 0;
 
@@ -68,9 +67,12 @@ function mineGenerater(board: Types.Board, cell_row: number, cell_col: number): 
 }
 
 //places a flag
-function placeFlag(board: Types.Board, cell: Types.Cell): void 
+function placeFlag(board: Types.Board, row: number, col: number): void 
 {
-    cell.state = 'flagged';
+    if (row >= 0 && row < board.rows && col >= 0 && col < board.cols)
+    {
+       board.cells[row][col].state = 'flagged';
+    }
 }
 function removeFlag(board: Types.Board, cell: Types.Cell): void 
 {
@@ -149,15 +151,15 @@ function renderBoard(row: number, col: number) {
 function win(board: Types.Board): void {
     for (let row = 0; row < Types.BOARD_SIZE; row++) {
         for (let col = 0; col < Types.BOARD_SIZE; col++) {
+
             const cell = board.cells[row][col];
 
-            // If this is not a mine and is still hidden
-            if((cell.state == 'covered') || (cell.isMine && cell.state != 'flagged') ){
+            if (!cell.isMine && cell.state == 'covered') {
                 return;
             }
-            
         }
     }
+
     board.gameStatus = 'won';
 }
     
@@ -170,11 +172,11 @@ function printBoard(board: Types.Board){
 
     for (let col = 0; col < Types.BOARD_SIZE; col++) {
         const cell = board.cells[row][col];
-        if (board.cells[row][col].isMine) {
-            line += "M "; //3 = mine 
+        if (board.cells[row][col].state == 'flagged') {
+            line += "F "; 
         }
-        else if (board.cells[row][col].state == 'flagged'){
-            line += " ";
+        else if (board.cells[row][col].isMine){
+            line += "M ";
         } 
         else if (board.cells[row][col].state == 'revealed'){
             line += cell.adjacentMines + " ";
@@ -212,12 +214,12 @@ async function testGame() {
 
     printBoard(board);
 
-    while (board.gameStatus !== 'lost') {
+    while (board.gameStatus !== 'lost' && board.gameStatus !== 'won') {
 
         const input = await ask("\nEnter row col (q to quit): ");
 
         if (input === 'q') {
-            return;
+            break;
         }
 
         const [row, col] = input.split(' ').map(Number);
@@ -228,10 +230,11 @@ async function testGame() {
             clickCell(board, row, col);
         }
         else if (action === 'f') {
-            placeFlag(board, board.cells[row][col]);
+            placeFlag(board, row, col);
         }
 
         printBoard(board);
+        win(board);
     }
 
     rl.close();
