@@ -171,10 +171,10 @@ function printBoard(board: Types.Board){
     for (let col = 0; col < Types.BOARD_SIZE; col++) {
         const cell = board.cells[row][col];
         if (board.cells[row][col].isMine) {
-            line += "3 "; //3 = mine 
+            line += "M "; //3 = mine 
         }
         else if (board.cells[row][col].state == 'flagged'){
-            line += "1 ";
+            line += " ";
         } 
         else if (board.cells[row][col].state == 'revealed'){
             line += cell.adjacentMines + " ";
