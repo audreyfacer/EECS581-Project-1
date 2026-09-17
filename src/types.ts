@@ -8,7 +8,7 @@
  * Outputs: Exported types, constants, and helper functions used by
  * other Minesweeper modules. No side effects.
  *
- * Author: Alice Mungamuri
+ * Author: Alice Mungamuri & Audrey Facer
  * Creation Date: September 15, 2026
  * External Sources: Copilot and other tools were used in this file 
  */
