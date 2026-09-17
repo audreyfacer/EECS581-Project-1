@@ -12,7 +12,7 @@
 
     "target": "es2020",
     "types": ["node"],
-    // Browser APIs (doctument, HTMLElement) needed by ui.ts and main.ts
+    // Browser APIs (document, HTMLElement) needed by ui.ts and main.ts
     "lib": ["esnext", "dom"],
 
     // Other Outputs
