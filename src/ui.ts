@@ -40,6 +40,8 @@ function createElement<K extends keyof HTMLElementTagNameMap>(
 export function renderStartScreen(onStart: StartGameHandler): void {
     const app = getApp();
     app.replaceChildren();
+    document.body.classList.add('start-page');
+    document.body.classList.remove('game-page');
 
     const shell = createElement('div', 'start-shell');
     const intro = createElement('section', 'start-intro');
@@ -99,17 +101,19 @@ function renderBoard(boardData: number[][]): HTMLElement {
 export function renderGameScreen(mineCount: number, onNewGame: NewGameHandler): void {
     const app = getApp();
     app.replaceChildren();
+    document.body.classList.add('game-page');
+    document.body.classList.remove('start-page');
+    window.scrollTo(0, 0);
 
     const gameShell = createElement('div', 'game-shell');
     const topbar = createElement('header', 'game-topbar');
-    const logo = createElement('div', 'mini-logo', 'Minesweeper');
     const newGame = createElement('button', 'new-game-button', 'New game');
     newGame.type = 'button';
     newGame.addEventListener('click', onNewGame);
-    topbar.append(logo, newGame);
+    topbar.append(newGame);
 
     const gameHeading = createElement('div', 'game-heading');
-    gameHeading.innerHTML = `<p class="eyebrow">FIELD READY</p><h1>Find the quiet squares.</h1><p>Read the clues, trust your logic, and leave the mines untouched.</p>`;
+    gameHeading.innerHTML = '<h1>Find the safe squares</h1>';
     const stats = createElement('div', 'game-stats');
     stats.innerHTML = `<div><span>Mines</span><strong>◈ ${mineCount}</strong></div><div><span>Status</span><strong class="status-ready">Ready</strong></div>`;
     const boardFrame = createElement('section', 'board-frame');
