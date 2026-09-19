@@ -28,13 +28,16 @@ body {
 
 .side-decorations {
     position: fixed;
+    display: grid;
     z-index: 0;
     inset: 0;
+    grid-template-columns: repeat(auto-fill, 56px);
+    grid-auto-rows: 56px;
+    align-content: start;
     pointer-events: none;
 }
 
 .side-box {
-    position: absolute;
     display: grid;
     place-items: center;
     align-content: center;
@@ -51,16 +54,16 @@ body {
     justify-self: center;
 }
 
-.side-box-one { top: 13%; left: 8vw; }
-.side-box-two { top: 39%; left: 15vw; }
-.side-box-three { top: 22%; right: 7vw; }
-.side-box-four { top: 47%; right: 16vw; }
-.side-box-five { top: 59%; left: 5vw; }
-.side-box-six { top: 77%; left: 18vw; }
-.side-box-seven { top: 64%; right: 5vw; }
-.side-box-eight { top: 82%; right: 18vw; }
-.side-box-nine { top: 30%; left: 11vw; }
-.side-box-ten { top: 89%; right: 10vw; }
+.side-box-one { grid-column: 2; grid-row: 1; }
+.side-box-two { grid-column: 4; grid-row: 4; }
+.side-box-three { grid-column: -3; grid-row: 1; }
+.side-box-four { grid-column: -5; grid-row: 7; }
+.side-box-five { grid-column: 2; grid-row: 7; }
+.side-box-six { grid-column: 5; grid-row: 10; }
+.side-box-seven { grid-column: -2; grid-row: 10; }
+.side-box-eight { grid-column: -5; grid-row: 13; }
+.side-box-nine { grid-column: 3; grid-row: 13; }
+.side-box-ten { grid-column: -3; grid-row: 4; }
 
 .side-number {
     position: relative;
