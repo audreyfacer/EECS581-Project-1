@@ -113,11 +113,6 @@ export function renderGameScreen(mineCount: number, onNewGame: NewGameHandler): 
 
     const gameBoard = createGame(mineCount);
     const gameShell = createElement('div', 'game-shell');
-    const topbar = createElement('header', 'game-topbar');
-    const newGame = createElement('button', 'new-game-button', 'New game');
-    newGame.type = 'button';
-    newGame.addEventListener('click', onNewGame);
-    topbar.append(newGame);
 
     const gameHeading = createElement('div', 'game-heading');
     gameHeading.innerHTML = '<h1>Find the safe squares</h1>';
@@ -125,12 +120,13 @@ export function renderGameScreen(mineCount: number, onNewGame: NewGameHandler): 
     const boardHost = createElement('div', 'board-host');
     const boardFrame = createElement('section', 'board-frame');
     const updateGameView = (): void => {
-        stats.innerHTML = `<div><span>Mines</span><strong>◈ ${gameBoard.mineCount}</strong></div><div><span>Status</span><strong class="status-${gameBoard.gameStatus}">${gameBoard.gameStatus}</strong></div>`;
+        stats.innerHTML = `<div><span>Mines</span><strong>${gameBoard.mineCount}</strong></div><button class="new-game-button" type="button">New game</button>`;
+        stats.querySelector<HTMLButtonElement>('.new-game-button')?.addEventListener('click', onNewGame);
         boardHost.replaceChildren(renderBoard(gameBoard, updateGameView));
     };
     updateGameView();
     boardFrame.append(stats, boardHost);
-    gameShell.append(topbar, gameHeading, boardFrame);
+    gameShell.append(gameHeading, boardFrame);
     app.append(gameShell);
 }
 
