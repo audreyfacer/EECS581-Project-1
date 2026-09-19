@@ -229,6 +229,8 @@ button { font: inherit; }
 .cell { display: grid; place-items: center; min-width: 0; aspect-ratio: 1; color: var(--ink); background: #6631a0; border-radius: 2px; font: 700 clamp(13px, 2.5vw, 20px) 'Press Start 2P', monospace; box-shadow: inset 0 0 8px #24104466; }
 .cell:nth-child(3n) { background: #7438a9; }
 .cell:nth-child(4n) { background: #542b91; }
+.cell.revealed { background: #2b1a5c; box-shadow: inset 0 0 8px #100b2b99; }
+.cell.flagged { color: var(--pink); background: #54236f; box-shadow: inset 0 0 0 2px var(--pink), 0 0 8px #ff8ad855; }
 .cell.number-1 { color: #a9e5ff; }
 .cell.number-2 { color: #ff9cda; }
 .cell.number-3 { color: #d8b4ff; }

@@ -76,6 +76,7 @@ function renderBoard(boardData: Board, onUpdate: () => void): HTMLElement {
 
             const cellData = boardData.cells[row][column];
             if (cellData.state === 'revealed') {
+                cell.classList.add('revealed');
                 if (cellData.isMine) {
                     cell.textContent = '*';
                     cell.classList.add('mine');
