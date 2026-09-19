@@ -2,6 +2,21 @@
 
 The project uses TypeScript and runs in a web browser.
 
+## Directory structure:
+```bash
+└── audreyfacer-eecs581-project-1/
+    ├── README.md
+    ├── index.html
+    ├── package.json
+    ├── style.css
+    ├── tsconfig.json
+    └── src/
+        ├── game.ts
+        ├── main.ts
+        ├── types.ts
+        └── ui.ts
+```
+
 ## Prerequisites
 
 - Node.js installed from [nodejs.org](https://nodejs.org/). Use an active LTS release.
