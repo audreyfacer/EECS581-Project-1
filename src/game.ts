@@ -40,15 +40,52 @@ function placeMines(board: Board, safeRow: number, safeCol: number): void {
 }
 
 function updateWinStatus(board: Board): void {
+    if (board.gameStatus !== 'playing') {
+        return;
+    }
+
+    let flaggedCount = 0;
+    let flagsAreCorrect = true;
+
     for (const row of board.cells) {
         for (const cell of row) {
-            if (!cell.isMine && cell.state !== 'revealed') {
-                return;
+            if (cell.state === 'flagged') {
+                flaggedCount += 1;
+                if (!cell.isMine) {
+                    flagsAreCorrect = false;
+                }
             }
         }
     }
 
+    const allSafeCellsRevealed = board.cells.every((row) =>
+        row.every((cell) => cell.isMine || cell.state === 'revealed')
+    );
+    const allMinesFlagged = flaggedCount === board.mineCount && flagsAreCorrect &&
+        board.cells.every((row) => row.every((cell) => !cell.isMine || cell.state === 'flagged'));
+
+    if (!allSafeCellsRevealed && !allMinesFlagged) {
+        return;
+    }
+
     board.gameStatus = 'won';
+    for (const row of board.cells) {
+        for (const cell of row) {
+            if (cell.isMine && cell.state === 'covered') {
+                cell.state = 'flagged';
+            }
+        }
+    }
+}
+
+function revealAllMines(board: Board): void {
+    for (const row of board.cells) {
+        for (const cell of row) {
+            if (cell.isMine) {
+                cell.state = 'revealed';
+            }
+        }
+    }
 }
 
 function revealEmptyNeighbors(board: Board, row: number, col: number): void {
@@ -101,7 +138,7 @@ export function revealCell(board: Board, row: number, col: number): void {
     }
 
     if (cell.isMine) {
-        cell.state = 'revealed';
+        revealAllMines(board);
         board.gameStatus = 'lost';
         return;
     }
@@ -124,5 +161,13 @@ export function toggleFlag(board: Board, row: number, col: number): void {
         return;
     }
 
-    cell.state = cell.state === 'flagged' ? 'covered' : 'flagged';
+    if (cell.state === 'flagged') {
+        cell.state = 'covered';
+    } else {
+        cell.state = 'flagged';
+    }
+
+    if (board.gameStatus === 'playing') {
+        updateWinStatus(board);
+    }
 }

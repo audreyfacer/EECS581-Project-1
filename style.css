@@ -225,6 +225,12 @@ button { font: inherit; }
 .game-stats span { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
 .game-stats strong { color: var(--neon); font-family: 'Press Start 2P', monospace; font-size: 12px; font-weight: 400; }
 .status-ready { color: var(--pink) !important; }
+.game-message { min-height: 18px; margin: -4px 0 10px; color: transparent; font-size: 11px; text-align: center; }
+.game-message.won { color: var(--neon); text-shadow: 0 0 10px var(--neon); }
+.game-message.lost { color: var(--pink); text-shadow: 0 0 10px var(--pink); }
+.win-celebration { position: fixed; z-index: 10; inset: 0; pointer-events: none; }
+.confetti-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.win-celebration-message { position: absolute; top: 50%; left: 50%; padding: 18px 24px; color: var(--ink); background: #43207acc; border: 3px solid var(--neon); box-shadow: 0 0 30px #d8a7ffcc, 0 8px 0 #08051a; font: 400 clamp(22px, 5vw, 48px) 'Press Start 2P', monospace; text-shadow: 4px 4px 0 #6c277f; transform: translate(-50%, -50%); }
 
 #board { display: grid; grid-template-columns: repeat(10, 1fr); aspect-ratio: 1; gap: 3px; }
 .cell { display: grid; place-items: center; min-width: 0; aspect-ratio: 1; color: var(--ink); background: #6631a0; border-radius: 2px; font: 700 clamp(13px, 2.5vw, 20px) 'Press Start 2P', monospace; box-shadow: inset 0 0 8px #24104466; }
