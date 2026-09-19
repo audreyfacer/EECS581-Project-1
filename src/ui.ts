@@ -1,17 +1,5 @@
-import { BOARD_SIZE, MAX_MINES, MIN_MINES } from './types.js';
-
-const mockBoard = [
-    [0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
-    [0, 0, 0, 1, 2, 2, 1, 0, 0, 0],
-    [0, 0, 0, 1, 1, 2, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-    [0, 0, 0, 0, 0, 0, 1, 2, 1, 0],
-    [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-];
+import { createGame, revealCell, toggleFlag } from './game.js';
+import { BOARD_SIZE, MAX_MINES, MIN_MINES, type Board } from './types.js';
 
 type StartGameHandler = (mineCount: number) => void;
 type NewGameHandler = () => void;
@@ -76,7 +64,7 @@ export function renderStartScreen(onStart: StartGameHandler): void {
     app.append(shell);
 }
 
-function renderBoard(boardData: number[][]): HTMLElement {
+function renderBoard(boardData: Board, onUpdate: () => void): HTMLElement {
     const board = createElement('div', 'board');
     board.id = 'board';
 
@@ -86,12 +74,29 @@ function renderBoard(boardData: number[][]): HTMLElement {
 
             cell.className = 'cell';
 
-            const value = boardData[row][column];
-            if (value > 0) {
-                cell.textContent = String(value);
-                cell.classList.add(`number-${value}`);
+            const cellData = boardData.cells[row][column];
+            if (cellData.state === 'revealed') {
+                if (cellData.isMine) {
+                    cell.textContent = '*';
+                    cell.classList.add('mine');
+                } else if (cellData.adjacentMines > 0) {
+                    cell.textContent = String(cellData.adjacentMines);
+                    cell.classList.add(`number-${cellData.adjacentMines}`);
+                }
+            } else if (cellData.state === 'flagged') {
+                cell.textContent = '⚑';
+                cell.classList.add('flagged');
             }
-            cell.setAttribute('aria-label', value > 0 ? `${value} adjacent mines` : 'covered square');
+            cell.setAttribute('aria-label', cellData.state === 'flagged' ? 'flagged square' : 'covered square');
+            cell.addEventListener('click', () => {
+                revealCell(boardData, row, column);
+                onUpdate();
+            });
+            cell.addEventListener('contextmenu', (event) => {
+                event.preventDefault();
+                toggleFlag(boardData, row, column);
+                onUpdate();
+            });
             board.append(cell);
         }
     }
@@ -105,6 +110,7 @@ export function renderGameScreen(mineCount: number, onNewGame: NewGameHandler): 
     document.body.classList.remove('start-page');
     window.scrollTo(0, 0);
 
+    const gameBoard = createGame(mineCount);
     const gameShell = createElement('div', 'game-shell');
     const topbar = createElement('header', 'game-topbar');
     const newGame = createElement('button', 'new-game-button', 'New game');
@@ -115,9 +121,14 @@ export function renderGameScreen(mineCount: number, onNewGame: NewGameHandler): 
     const gameHeading = createElement('div', 'game-heading');
     gameHeading.innerHTML = '<h1>Find the safe squares</h1>';
     const stats = createElement('div', 'game-stats');
-    stats.innerHTML = `<div><span>Mines</span><strong>◈ ${mineCount}</strong></div><div><span>Status</span><strong class="status-ready">Ready</strong></div>`;
+    const boardHost = createElement('div', 'board-host');
     const boardFrame = createElement('section', 'board-frame');
-    boardFrame.append(stats, renderBoard(mockBoard));
+    const updateGameView = (): void => {
+        stats.innerHTML = `<div><span>Mines</span><strong>◈ ${gameBoard.mineCount}</strong></div><div><span>Status</span><strong class="status-${gameBoard.gameStatus}">${gameBoard.gameStatus}</strong></div>`;
+        boardHost.replaceChildren(renderBoard(gameBoard, updateGameView));
+    };
+    updateGameView();
+    boardFrame.append(stats, boardHost);
     gameShell.append(topbar, gameHeading, boardFrame);
     app.append(gameShell);
 }
