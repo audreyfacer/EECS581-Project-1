@@ -8,7 +8,7 @@
  * Outputs: Exported types, constants, and helper functions used by
  * other Minesweeper modules. No side effects.
  *
- * Author: Alice Mungamuri
+ * Author: Alice Mungamuri & Audrey Facer
  * Creation Date: September 15, 2026
  * External Sources: Copilot and other tools were used in this file 
  */
@@ -55,6 +55,7 @@ export type Board = {
   rows: number;
   cols: number;
   mineCount: number;
+  gameStatus: GameStatus;
 };
 
 // "ready" means mines have not been placed yet so the first click can be safe.
@@ -76,7 +77,8 @@ export type GameState = {
 export function createEmptyBoard(
   rows: number,
   cols: number,
-  mineCount: number
+  mineCount: number,
+  gameStatus: GameStatus
 ): Board {
   const cells: Cell[][] = Array.from({ length: rows }, () =>
     Array.from({ length: cols }, (): Cell => ({
@@ -91,6 +93,7 @@ export function createEmptyBoard(
     rows,
     cols,
     mineCount,
+    gameStatus
   };
 }
 
