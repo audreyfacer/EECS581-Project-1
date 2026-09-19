@@ -48,37 +48,28 @@ export function renderStartScreen(onStart: StartGameHandler): void {
 
     const setup = createElement('section', 'setup-panel');
     const setupHeading = createElement('h2', 'panel-title', 'Choose mines');
-    const setupCopy = createElement('p', 'panel-copy', 'Set the challenge, then start the game.');
     const minePicker = createElement('label', 'mine-picker');
-    minePicker.innerHTML = '<span>MINES IN PLAY</span>';
-    const mineInput = document.createElement('input');
-    mineInput.type = 'number';
-    mineInput.min = String(MIN_MINES);
-    mineInput.max = String(MAX_MINES);
-    mineInput.value = '15';
-    mineInput.setAttribute('aria-label', 'Number of mines');
+    const mineReadout = createElement('div', 'mine-readout');
+    const mineCount = createElement('output', 'mine-count', '15');
+    const mineLabel = createElement('span', 'mine-label', 'mines');
     const mineRange = document.createElement('input');
     mineRange.type = 'range';
     mineRange.min = String(MIN_MINES);
     mineRange.max = String(MAX_MINES);
-    mineRange.value = mineInput.value;
+    mineRange.value = '15';
     mineRange.setAttribute('aria-label', 'Number of mines slider');
-    mineInput.addEventListener('input', () => {
-        const value = Math.min(MAX_MINES, Math.max(MIN_MINES, Number(mineInput.value) || MIN_MINES));
-        mineInput.value = String(value);
-        mineRange.value = String(value);
-    });
     mineRange.addEventListener('input', () => {
-        mineInput.value = mineRange.value;
+        mineCount.textContent = mineRange.value;
     });
-    minePicker.append(mineInput, mineRange);
+    mineReadout.append(mineCount, mineLabel);
+    minePicker.append(mineReadout, mineRange);
 
     const startButton = createElement('button', 'start-button', 'Start game');
     startButton.type = 'button';
-    startButton.addEventListener('click', () => onStart(Math.min(MAX_MINES, Math.max(MIN_MINES, Number(mineInput.value) || MIN_MINES))));
+    startButton.addEventListener('click', () => onStart(Number(mineRange.value)));
     const instructions = createElement('div', 'instructions');
     instructions.innerHTML = '<span class="instruction-icon">?</span><div><strong>How to play</strong><ul><li>Reveal every safe square.</li><li>Use numbers to spot nearby mines.</li><li>Right-click to flag a suspected mine.</li></ul></div>';
-    setup.append(setupHeading, setupCopy, minePicker, startButton, instructions);
+    setup.append(setupHeading, minePicker, startButton, instructions);
     shell.append(intro, setup);
     app.append(shell);
 }

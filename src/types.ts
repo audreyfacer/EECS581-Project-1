@@ -15,8 +15,8 @@
 
 // Board configuration constants.
 export const BOARD_SIZE = 10;
-export const MIN_MINES = 1;
-export const MAX_MINES = BOARD_SIZE * BOARD_SIZE - 1;
+export const MIN_MINES = 10;
+export const MAX_MINES = 20;
 
 // Labels displayed to the player for the 10x10 board.
 export const COLUMN_LABELS = [
