@@ -1,4 +1,13 @@
-// import types createEmptyBoard and Board from types.js
+/**
+ * @file game.ts
+ * @module src/game
+ * @description Core game logic for Minesweeper. Handles initializing the board, 
+ * generating mines, revealing cells, toggling flags, and managing win/loss status.
+ * 
+ * @author Heidi Schieber, Lilly Tran, and Aayush Gajakas
+ * @date 2026-09-15
+ */
+
 import { createEmptyBoard, type Board } from './types.js';
 
 /**
