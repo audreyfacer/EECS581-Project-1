@@ -1,3 +1,14 @@
+/*
+ * Module: ui.ts
+ * Description: Handles the user interface for the Minesweeper game, including rendering screens and handling user interactions.
+ *
+ * Inputs: 
+ * Outputs: 
+ *
+ * Author: Aayush  and Aiman Boullaouz
+ * Creation Date: 
+ * External Sources:  
+ */
 // import the game logic that actually creates boards, reveals cells, and toggles flags
 import { createGame, revealCell, toggleFlag } from './game.js';
 // import the shared board size constants and board type from the model layer
