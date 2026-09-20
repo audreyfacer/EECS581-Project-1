@@ -1,13 +1,15 @@
 /**
- * Module: ui.ts
- * Description: 
+ * Module: main.ts
+ * Description: Starts the Minesweeper application at the start screen and
+ * connects the start and new-game callbacks to the UI module.
  *
- * Inputs: 
- * Outputs: 
+ * Inputs: Browser DOM supplied by index.html.
+ * Outputs: Initializes the rendered application; no returned value.
  *
- * Author: 
- * Creation Date: 
- * External Sources:
+ * Author: Aayush Gajakas and Aiman Boullaouz
+ * Creation Date: September 15, 2026
+ * External Sources: No external code was copied; browser APIs are used
+ * through the UI module.
  */
 // imports the render functions from the ui module to display the start and game screens.
 import { renderGameScreen, renderStartScreen } from './ui.js';

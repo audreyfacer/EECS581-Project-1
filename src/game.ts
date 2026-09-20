@@ -1,4 +1,16 @@
-// import types createEmptyBoard and Board from types.js
+/*
+ * Module: game.ts
+ * Description: Implements Minesweeper board creation, mine placement, cell
+ * revealing, flagging, win detection, and loss handling.
+ *
+ * Inputs: Mine counts and board coordinates supplied by the UI or tests.
+ * Outputs: Mutates Board objects to reflect the current game state.
+ *
+ * Authors: Heidi Schieber, Lilly Tran, and Aayush Gajakas
+ * Creation Date: September 15, 2026
+ * External Sources: No external code was copied; implementation uses the
+ * Minesweeper rules defined by the project requirements.
+ */
 import { createEmptyBoard, type Board } from './types.js';
 
 /**
@@ -230,7 +242,7 @@ export function toggleFlag(board: Board, row: number, col: number): void {
 
     if (cell.state === 'flagged') {
         cell.state = 'covered';
-    } else {
+    } else if (board.cells.flat().filter((candidate) => candidate.state === 'flagged').length < board.mineCount) {
         cell.state = 'flagged';
     }
 

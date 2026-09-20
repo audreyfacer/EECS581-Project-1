@@ -2,12 +2,13 @@
  * Module: ui.ts
  * Description: Handles the user interface for the Minesweeper game, including rendering screens and handling user interactions.
  *
- * Inputs: 
- * Outputs: 
+ * Inputs: Browser DOM events, selected mine counts, and game callbacks.
+ * Outputs: Rendered start/game screens and DOM event responses.
  *
- * Author: Aayush  and Aiman Boullaouz
- * Creation Date: 
- * External Sources:  
+ * Author: Aayush Gajakas and Aiman Boullaouz
+ * Creation Date: September 15, 2026
+ * External Sources: No external code was copied; browser APIs and the
+ * Canvas 2D API are used for the interface and win animation.
  */
 // import the game logic that actually creates boards, reveals cells, and toggles flags
 import { createGame, revealCell, toggleFlag } from './game.js';
@@ -279,8 +280,10 @@ export function renderGameScreen(mineCount: number, onNewGame: NewGameHandler): 
     let celebrationShown = false;
     // this function refreshes the HUD and board whenever the game state changes
     const updateGameView = (): void => {
-        // update the mine counter and add the button to start another round
-        stats.innerHTML = `<div><span>Mines</span><strong>${gameBoard.mineCount}</strong></div><button class="new-game-button" type="button">New game</button>`;
+        // update the remaining-mine counter and add the button to start another round
+        const flaggedCount = gameBoard.cells.flat().filter((cell) => cell.state === 'flagged').length;
+        const remainingMines = gameBoard.mineCount - flaggedCount;
+        stats.innerHTML = `<div><span>Mines</span><strong>${remainingMines}</strong></div><button class="new-game-button" type="button">New game</button>`;
         // attach the new-game callback when the button is clicked
         stats.querySelector<HTMLButtonElement>('.new-game-button')?.addEventListener('click', onNewGame);
         // set the win/loss message based on the current game status
