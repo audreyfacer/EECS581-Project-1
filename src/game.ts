@@ -1,15 +1,18 @@
 /*
- * Module: game.ts
- * Description: Implements Minesweeper board creation, mine placement, cell
- * revealing, flagging, win detection, and loss handling.
+ * Module Name: game.ts
+ * Description: Implements the core Minesweeper game logic for board creation, mine
+ * placement, cell reveal behavior, flag toggling, win detection, and loss handling.
  *
- * Inputs: Mine counts and board coordinates supplied by the UI or tests.
- * Outputs: Mutates Board objects to reflect the current game state.
+ * Inputs: Board state objects, mine counts, row/column coordinates, and game actions
+ * triggered by the UI or automated tests.
+ * Outputs: Mutated Board objects that reflect the game state after each action.
  *
- * Authors: Heidi Schieber, Lilly Tran, and Aayush Gajakas
+ * Author(s): Heidi Schieber, Lilly Tran, and Aayush Gajakas
  * Creation Date: September 15, 2026
- * External Sources: No external code was copied; implementation uses the
- * Minesweeper rules defined by the project requirements.
+ * External Sources / Attribution: Original project logic developed for this assignment;
+ * no third-party code was copied. The game behavior follows the standard Minesweeper
+ * rules defined in the project requirements.
+ * Code Origin: Original implementation written for this project.
  */
 import { createEmptyBoard, type Board } from './types.js';
 

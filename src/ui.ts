@@ -1,14 +1,18 @@
 /*
- * Module: ui.ts
- * Description: Handles the user interface for the Minesweeper game, including rendering screens and handling user interactions.
+ * Module Name: ui.ts
+ * Description: Renders the Minesweeper start screen and game interface, and handles
+ * user interactions such as reveal, flagging, and restart actions.
  *
- * Inputs: Browser DOM events, selected mine counts, and game callbacks.
- * Outputs: Rendered start/game screens and DOM event responses.
+ * Inputs: Browser DOM elements, user input events, selected mine counts, and callbacks
+ * from the game logic layer.
+ * Outputs: Updated DOM content for the start screen, game board, and win-state overlay.
  *
  * Author: Aayush Gajakas and Aiman Boullaouz
  * Creation Date: September 15, 2026
- * External Sources: No external code was copied; browser APIs and the
- * Canvas 2D API are used for the interface and win animation.
+ * External Sources / Attribution: Original project UI code; browser DOM APIs and the
+ * Canvas 2D API are used directly from the browser environment. No third-party UI logic
+ * was copied into this file.
+ * Code Origin: Original implementation combined with standard browser APIs.
  */
 // import the game logic that actually creates boards, reveals cells, and toggles flags
 import { createGame, revealCell, toggleFlag } from './game.js';
