@@ -8,11 +8,11 @@ The project uses TypeScript and runs in a web browser.
     ├── README.md
     ├── index.html
     ├── package.json
+    ├── QA_test.md
     ├── style.css
     ├── tsconfig.json
-    ├── Docs/
-        └── SWE_2_Project_Tracker.xlsx
     └── src/
+        ├── game.test.ts
         ├── game.ts
         ├── main.ts
         ├── types.ts
