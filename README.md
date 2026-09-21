@@ -20,7 +20,7 @@ The project uses TypeScript and runs in a web browser.
 ```
 
 ## Docs
-More detailed documentation about the project management and system design can be found in the Docs folder within the excel tracker. Prologue comments and inline comments explain every section of code in the project.
+For detailed documentation about the project management / hours accounting open tracker excel file. System design can be found in the Docs folder within the excel tracker. Prologue comments and inline comments explain every section of code in the project.
 
 ## Running The App Prerequisites
 
